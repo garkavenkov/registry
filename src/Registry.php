@@ -6,28 +6,67 @@ class Registry
 {
     private static $_instances = array();
 
+    /**
+     * Prevents creating the 'Registry' instance
+     *
+     * @return void
+     */
     public function __construct()
     {        
     }
 
+    /**
+     * Prevents cloning of the 'Registry' instance
+     *
+     * @return void
+     */
     public function __clone()
     {        
     }
 
-    public static function get($key, $default = null)
+    /**
+     * Prevents unserializing of the 'Registry' instance
+     *
+     * @return void
+     */
+    public function __wakeup()
+    {
+    }
+
+    /**
+     * Get class instance from storeroom
+     *
+     * @param string $key       Instance key
+     * @param mixed $default    Default class instance
+     * @return mixed
+     */
+    public static function get(string $key, $default = null)
     {
         if (isset(self::$_instances[$key])) {
             return self::$_instances[$key];
         }
         return $default;
     }
-
-    public static function set($key, $instance = null)
+    
+    /**
+     * Assign class instance with key
+     *
+     * @param string $key       Instance key
+     * @param mixed $instance   Instance
+     * @return void
+     */
+    public static function set(string $key, mixed $instance = null)
     {
         self::$_instances[$key] = $instance;
     }
 
-    public static function erase($key)
+    /**
+     * Remove instance from storeroom
+     *
+     * @param string $key   Instance jey
+     * @return void
+     */
+    public static function erase(string $key)
     {
         unset(self::$_instances[$key]);
     }
